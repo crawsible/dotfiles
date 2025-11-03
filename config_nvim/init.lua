@@ -1,29 +1,8 @@
--- lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	})
-end
-vim.opt.rtp:prepend(lazypath)
-local lazy = require("lazy")
+vim.pack.add({ 'https://github.com/neanias/everforest-nvim', 'https://github.com/nvim-tree/nvim-tree.lua' })
 
--- load vim baseline
---  set mapleader needs to happen before lazy loads the plugins
-vim.cmd.source("~/.vimrc")
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_perl_provider = 0
+require('everforest').load()
 
-lazy.setup("plugins", {
-	change_detection = {
-		notify = false,
-	},
-})
+require('nvim-tree').setup()
+vim.keymap.set('n', '\\', ':NvimTreeToggle<CR>', { noremap = true, silent = true, desc = 'Toggle NvimTree' })
 
-require("lsp/config")
-require("colors/config")
+vim.cmd.source('~/.vimrc')
